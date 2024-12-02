@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -49,8 +50,24 @@ public partial class MainWindow : Window
             
         try
         {
-            var settings = Settings.ReadJsonData().Result;
+            var settings = await Settings.ReadJsonData();
+            
             var settingsData = JsonConvert.DeserializeObject<Settings>(settings);
+            var control = new Settings();
+            await control.CheckJsonData(settingsData);
+            this.Width = settingsData.WindowSize.X;
+            this.Height = settingsData.WindowSize.Y;
+
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                App.SetTheme(this, settingsData.Theme switch
+                {
+                    "Light" => App.Theme.Light,
+                    "Dark" => App.Theme.Dark,
+                    _ => throw new ArgumentException("Invalid theme setting")
+                });
+            });
+            
             LanguageController.CurrentLanguage = settingsData.Language switch
             {
                 "English" => LanguageController.Language.English,
@@ -69,7 +86,7 @@ public partial class MainWindow : Window
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine($"Failed to initialize the settings. .{e.Message}");
             throw;
         }
     }

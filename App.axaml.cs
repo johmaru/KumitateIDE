@@ -1,10 +1,14 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Styling;
+using Avalonia.Themes.Fluent;
 using KumitateIDE.ViewModels;
 using KumitateIDE.Views;
 
@@ -50,5 +54,22 @@ public partial class App : Application
         {
             BindingPlugins.DataValidators.Remove(plugin);
         }
+    }
+
+    public enum Theme
+    {
+        Light,
+        Dark,
+    }
+    public static void SetTheme(Window window,Theme theme)
+    {
+        var themeVariant = theme switch
+        {
+            Theme.Light => ThemeVariant.Light,
+            Theme.Dark => ThemeVariant.Dark,
+            _ => throw new ArgumentOutOfRangeException(nameof(theme), theme, null)
+        };
+        
+        window.RequestedThemeVariant = themeVariant;
     }
 }

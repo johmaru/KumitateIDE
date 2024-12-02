@@ -71,6 +71,26 @@ public abstract class LanguageController
         }
     }
     
+    public static void InitializeLanguageData<T>(T viewModel)
+    {
+        try
+        {
+            var type = viewModel.GetType();
+            var properties = type.GetProperties()
+                .Where(p => p.GetCustomAttribute<LocalizedAttribute>() != null);
+
+            foreach (var property in properties)
+            {
+                var attribute = property.GetCustomAttribute<LocalizedAttribute>();
+                property.SetValue(viewModel, GetLanguageData(attribute.Key));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new InitializeFailedLanguageError();
+        }
+    }
+    
 
     public static Language? CurrentLanguage { get; set; } = null;
 

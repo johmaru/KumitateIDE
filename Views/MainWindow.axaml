@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:KumitateIDE.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:views="using:KumitateIDE.Views.UC"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="KumitateIDE.Views.MainWindow"
@@ -16,8 +17,7 @@
     </Design.DataContext>
     
     
-
-
+    <StackPanel>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="{Binding Files}">
@@ -25,9 +25,8 @@
                     <MenuItem Header="{Binding Exit}" Command="{Binding ExitCommand}"/>
                 </MenuItem>
             </Menu>
-            <TextBlock Text="{Binding Greeting}"/>
         </DockPanel>
-    
-    
+        <views:Main/>
+    </StackPanel>
 
 </Window>
