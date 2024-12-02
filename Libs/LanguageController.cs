@@ -18,7 +18,9 @@ public abstract class LanguageController
 
     private static Dictionary<string, string[]> LanguageData() => new()
     {
-        { "Greeting", ["Welcome to Avalonia!", "Avaloniaへようこそ！"] }
+        { "Greeting", ["Welcome to Avalonia!", "Avaloniaへようこそ！"] },
+        {"Hello", ["Hello!", "こんにちは！"]},
+        {"Goodbye", ["Goodbye!", "さようなら！"]},
     };
     
     public static string GetLanguageData(string key)

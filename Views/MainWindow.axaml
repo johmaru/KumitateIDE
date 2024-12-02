@@ -23,7 +23,7 @@
                 <MenuItem Header="">
                 </MenuItem>
             </Menu>
-            <Label Content="{Binding Greeting}"/>
+            <TextBlock Text="{Binding Greeting}"/>
         </DockPanel>
     
     
