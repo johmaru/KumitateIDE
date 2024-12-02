@@ -20,7 +20,9 @@
 
         <DockPanel>
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="">
+                <MenuItem Header="{Binding Files}">
+                    <MenuItem Header="{Binding Options}"/>
+                    <MenuItem Header="{Binding Exit}" Command="{Binding ExitCommand}"/>
                 </MenuItem>
             </Menu>
             <TextBlock Text="{Binding Greeting}"/>

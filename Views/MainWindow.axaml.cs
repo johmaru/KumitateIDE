@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
 using KumitateIDE.Libs;
 using KumitateIDE.ViewModels;
@@ -25,10 +27,6 @@ public partial class MainWindow : Window
         try
         {
             await Initialize();
-
-            await Task.Delay(5000);
-            
-            _mainWindowViewModel.Greeting = LanguageController.GetLanguageData("Hello");
         }
         catch (Exception e)
         {

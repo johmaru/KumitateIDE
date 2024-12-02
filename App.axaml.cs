@@ -12,7 +12,7 @@ namespace KumitateIDE;
 
 public partial class App : Application
 {
-    public static OSPlatform? Os { get; private set; } = null; 
+    public static OSPlatform? Os { get; private set; } 
     
     public override void Initialize()
     {
