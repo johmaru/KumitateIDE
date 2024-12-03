@@ -11,9 +11,12 @@ public class NotInitializedLanguageError() : Exception("Language is not initiali
 
 public class InitializeFailedLanguageError() : Exception("Language initialization failed.");
 
+public class UnknownLanguageError() : Exception("Unknown language.");
+
 public static class LanguageData
 {
     public record LocalizedData(string English, string Japanese);
+    
     
     public static Dictionary<string, LocalizedData> Data { get; } = new()
     {
@@ -21,11 +24,40 @@ public static class LanguageData
         ["Options"] = new LocalizedData("Options", "オプション"),
         ["Exit"] = new LocalizedData("Exit", "終了"),
         ["Files"] = new LocalizedData("Files", "ファイル"),
+        ["VideoOptions"] = new LocalizedData("Video Options", "ビデオオプション"),
+        ["GeneralOptions"] = new LocalizedData("General Options", "一般オプション"),
+        ["Language"] = new LocalizedData("Language", "言語"),
+        ["Japanese"] = new LocalizedData("Japanese", "日本語"),
+        ["English"] = new LocalizedData("English", "英語"),
     };
 }
 
 public abstract class LanguageController
 {
+    public static Language? CurrentLanguage { get; set; } = null;
+    private static readonly List<WeakReference<object>>_registredViewModels = new();
+    
+    public static void RegisterViewModel(object viewModel)
+    {
+        _registredViewModels.Add(new WeakReference<object>(viewModel));
+    }
+    
+    public static void UpdateAllViewModels()
+    {
+        var aliveViewModels = _registredViewModels
+            .Where(wr => wr.TryGetTarget(out _))
+            .ToList();
+        
+        _registredViewModels.RemoveAll(wr => !wr.TryGetTarget(out _));
+        
+        foreach (var weakRef in aliveViewModels)
+        {
+            if (weakRef.TryGetTarget(out var viewModel))
+            {
+                InitializeLanguageData(viewModel);
+            }
+        }
+    }
     public enum Language
     {
         English = 0,
@@ -47,7 +79,7 @@ public abstract class LanguageController
         {
             Language.English => LanguageData.Data[key].English,
             Language.Japanese => LanguageData.Data[key].Japanese,
-            _ => throw new NotInitializedLanguageError()
+            _ => throw new UnknownLanguageError()
         };
     }
     
@@ -90,8 +122,5 @@ public abstract class LanguageController
             throw new InitializeFailedLanguageError();
         }
     }
-    
-
-    public static Language? CurrentLanguage { get; set; } = null;
 
 }

@@ -7,20 +7,20 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using KumitateIDE.Libs;
 using KumitateIDE.ViewModels;
+using KumitateIDE.Views.UC;
 using Newtonsoft.Json;
 
 namespace KumitateIDE.Views;
 
 public partial class MainWindow : Window
 {
-    private MainWindowViewModel? _mainWindowViewModel;
+    public static MainWindowViewModel? MainWindowViewModel;
     public MainWindow()
     {
         InitializeComponent();
 
        
             InitializeAsync();
-       
     }
 
     private async void InitializeAsync()
@@ -74,12 +74,13 @@ public partial class MainWindow : Window
                 "Japanese" => LanguageController.Language.Japanese,
                 _ => throw new NotInitializedLanguageError()
             };
-            _mainWindowViewModel = new MainWindowViewModel();
+            MainWindowViewModel = new MainWindowViewModel();
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                DataContext = _mainWindowViewModel;
-                LanguageController.InitializeLanguageData(_mainWindowViewModel);
+                DataContext = MainWindowViewModel;
+                LanguageController.InitializeLanguageData(MainWindowViewModel);
+                MainWindowViewModel.NavigateToView(new Main());
             });
 
 

@@ -21,12 +21,12 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="{Binding Files}">
-                    <MenuItem Header="{Binding Options}"/>
+                    <MenuItem Header="{Binding Options}" Command="{Binding OpenOptionsCommand}"/>
                     <MenuItem Header="{Binding Exit}" Command="{Binding ExitCommand}"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <views:Main/>
+        <ContentControl Content="{Binding CurrentView}"/>
     </StackPanel>
 
 </Window>

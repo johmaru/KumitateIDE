@@ -2,13 +2,45 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using KumitateIDE.Libs;
+using KumitateIDE.Views;
+using KumitateIDE.Views.UC;
 
 namespace KumitateIDE.ViewModels;
 
 public partial  class MainWindowViewModel : ViewModelBase
 {
+    
+    private object _currentView;
+    public object CurrentView
+    {
+        get => _currentView;
+        set => SetProperty(ref _currentView, value);
+    }
+
+    public void NavigateToView(object view)
+    {
+        CurrentView = view;
+    }
+
+    public void ForwardOptions()
+    {
+        if (CurrentView is Main)
+        {
+            NavigateToView(new Options());
+        }
+        else if (CurrentView is Options)
+        {
+            NavigateToView(new Main());
+        }
+    }
+    
+    public object GetView()
+    {
+        return CurrentView;
+    }
      
      
     private string _greeting =string.Empty;
@@ -40,13 +72,6 @@ public partial  class MainWindowViewModel : ViewModelBase
             get => _exit;
             set => SetProperty(ref _exit, value);
         }
-        
-        public ICommand ExitCommand { get; }
-        
-        public MainWindowViewModel()
-        {
-            ExitCommand = new RelayCommand(OnExit);
-        }
 
         private string _files = string.Empty;
         
@@ -55,6 +80,16 @@ public partial  class MainWindowViewModel : ViewModelBase
         {
             get => _files;
             set => SetProperty(ref _files, value);
+        }
+        
+        public ICommand ExitCommand { get; }
+        
+        public ICommand OpenOptionsCommand { get; }
+        
+        public MainWindowViewModel()
+        {
+            ExitCommand = new RelayCommand(OnExit);
+            OpenOptionsCommand = new RelayCommand(ForwardOptions);
         }
     
         

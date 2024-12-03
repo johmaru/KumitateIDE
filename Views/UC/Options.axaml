@@ -1,0 +1,27 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:KumitateIDE.ViewModels.UC"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="KumitateIDE.Views.UC.Options"
+             x:Name="OptionsControl"
+             x:DataType="vm:OptionsUserControlViewModel">
+   
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <ListBox SelectedIndex="0">
+                <ListBoxItem x:Name="OptionsItem" Content="{Binding VideoOptions} " Tapped="OptionsItem_OnTapped" />
+            </ListBox>
+        </StackPanel>
+        
+        <ContentControl Grid.Column="1" Content="{Binding CurrentSelectOption}"/>
+        
+        </Grid>
+    
+</UserControl>
