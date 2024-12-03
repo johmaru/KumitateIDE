@@ -2,6 +2,7 @@
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -28,18 +29,35 @@ internal struct  Settings
         
         return  WriteJsonData(this);
     }
-    
-    public static ValueTask<string> ReadJsonData()
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
+    public async static ValueTask<string> ReadJsonData()
     {
-        if (!File.Exists(FileLocation.Settings)) File.Create(FileLocation.Settings).Close();
-        string json = File.ReadAllText(FileLocation.Settings);
-        return new ValueTask<string>(json);
+        await Semaphore.WaitAsync();
+        try
+        {
+            if (!File.Exists(FileLocation.Settings)) 
+                File.Create(FileLocation.Settings).Close();
+            
+            return await File.ReadAllTextAsync(FileLocation.Settings);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
     }
     
     public static async ValueTask  WriteJsonData(Settings settings)
     {
-        string json = JsonConvert.SerializeObject(settings);
-       await File.WriteAllTextAsync(FileLocation.Settings, json);
+        await Semaphore.WaitAsync();
+        try
+        {
+            string json = JsonConvert.SerializeObject(settings);
+            await File.WriteAllTextAsync(FileLocation.Settings, json);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
     }
     
     public static async ValueTask InitializeJsonData()

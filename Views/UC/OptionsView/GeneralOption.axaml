@@ -8,12 +8,34 @@
              x:DataType="vm:OptionsUserControlViewModel">
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{Binding GeneralOptions}" Margin="0,0,0,30" TextDecorations="Underline" FontSize="16"/>
-        <StackPanel Orientation="Horizontal">
+        
+        <StackPanel Margin="0,0,0,20" Orientation="Horizontal">
             <TextBlock Text="{Binding Language}"/>
-            <ComboBox SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+            <ComboBox SelectionChanged="SelectingItemsControl_OnSelectionChanged" Loaded="Control_OnLoaded">
                 <ComboBoxItem Content="{Binding English}"/>
                 <ComboBoxItem Content="{Binding Japanese}"/>
             </ComboBox>
+        </StackPanel>
+        
+        <StackPanel Margin="0,0,0,20" Orientation="Horizontal">
+            <TextBlock Text="{Binding Theme}"/>
+            <ComboBox x:Name="ThemeComboBox" SelectionChanged="ThemeComboBox_OnSelectionChanged" Loaded="ThemeComboBox_OnLoaded">
+                <ComboBoxItem x:Name="LightComboBoxItem" Content="{Binding Light}"/>
+                <ComboBoxItem Content="{Binding Dark}" />
+            </ComboBox>
+        </StackPanel>
+        
+        <StackPanel Margin="0,0,0,20" Orientation="Horizontal">
+            <TextBlock Text="{Binding WindowSize}"/>
+            <TextBlock Text="{Binding Width}" Margin="0,0,20,0" />
+            <TextBox x:Name="WidthTextBox" Text="" Loaded="WidthTextBlock_OnLoaded"/>
+            <TextBlock Text="{Binding Height}" Margin="20,0,0,0"/>
+            <TextBox x:Name="HeightTextBox" Text="" Loaded="HeightTextBlock_OnLoaded"/>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button x:Name="SaveClick" Content="{Binding Save}" Click="SaveClick_OnClick" />
+            <Button Content="{Binding Back}" Click="Button_OnClick"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -69,7 +69,12 @@ public partial class App : Application
             Theme.Dark => ThemeVariant.Dark,
             _ => throw new ArgumentOutOfRangeException(nameof(theme), theme, null)
         };
-        
+        Application.Current!.RequestedThemeVariant = themeVariant;
         window.RequestedThemeVariant = themeVariant;
     }
-}
+
+    public enum Windows
+    {
+        MainWindow
+    }
+  }

@@ -29,6 +29,14 @@ public static class LanguageData
         ["Language"] = new LocalizedData("Language", "言語"),
         ["Japanese"] = new LocalizedData("Japanese", "日本語"),
         ["English"] = new LocalizedData("English", "英語"),
+        ["Theme"] = new LocalizedData("Theme", "テーマ"),
+        ["Dark"] = new LocalizedData("Dark", "ダーク"),
+        ["Light"] = new LocalizedData("Light", "ライト"),
+        ["WindowSize"] = new LocalizedData("WindowSize","ウィンドウサイズ"),
+        ["Width"] = new LocalizedData("Width", "幅"),
+        ["Height"] = new LocalizedData("Height", "高さ"),
+        ["Save"] = new LocalizedData("Save","セーブ"),
+        ["Back"] = new LocalizedData("Back","戻る"),
     };
 }
 

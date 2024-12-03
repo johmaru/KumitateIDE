@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using KumitateIDE.Libs;
 using KumitateIDE.ViewModels;
@@ -15,12 +16,15 @@ namespace KumitateIDE.Views;
 public partial class MainWindow : Window
 {
     public static MainWindowViewModel? MainWindowViewModel;
+    private static Window _window;
     public MainWindow()
     {
         InitializeComponent();
 
        
             InitializeAsync();
+            
+            _window = this;
     }
 
     private async void InitializeAsync()
@@ -34,6 +38,12 @@ public partial class MainWindow : Window
             Console.WriteLine(e);
             throw;
         }
+    }
+    
+    public static void WindowSizeChange(double width, double height)
+    {
+        _window.Width = width;
+        _window.Height = height;
     }
 
     private async ValueTask Initialize()
@@ -91,4 +101,16 @@ public partial class MainWindow : Window
             throw;
         }
     }
+    
+      public static void SetThemeThis(App.Theme theme)
+        {
+            var themeVariant = theme switch
+            {
+                App.Theme.Light => ThemeVariant.Light,
+                App.Theme.Dark => ThemeVariant.Dark,
+                _ => throw new ArgumentOutOfRangeException(nameof(theme), theme, null)
+            };
+            Application.Current!.RequestedThemeVariant = themeVariant;
+            _window.RequestedThemeVariant = themeVariant;
+        }
 }
